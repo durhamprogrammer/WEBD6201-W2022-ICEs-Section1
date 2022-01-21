@@ -22,7 +22,16 @@
         MainParagraph.textContent = "This is the Main Paragraph!";
 
         // Step 4 - perform insertion / deletion
+
+        // example of insert after (append)
         MainContent.appendChild(MainParagraph);
+
+        // example of insert before
+        //MainContent.before(MainParagraph);
+
+        // example of deletion
+        //document.getElementById("AboutUsButton").remove();
+        AboutUsButton.remove();
     }
 
 
