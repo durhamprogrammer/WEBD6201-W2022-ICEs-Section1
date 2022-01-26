@@ -1,5 +1,7 @@
 // IIFE -- Immediately Invoked Function Express
 // AKA anonymous self-executing function
+
+"use strict";
 (function()
 {
     function DisplayHome()
@@ -44,6 +46,9 @@
         //AboutUsButton.remove();
 
         // ES6 and HTLM5 => Template Strings => "Super Strings"
+
+        let tom = new Contact("Tom", "5555555555", "tom@example.com");
+        console.log(tom.toString());
     }
 
 
