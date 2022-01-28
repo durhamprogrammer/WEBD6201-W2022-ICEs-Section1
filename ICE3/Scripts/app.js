@@ -37,18 +37,6 @@
         Article.innerHTML = ArticleParagraph;
         DocumentBody.appendChild(Article);
 
-
-        // example of insert before
-        //MainContent.before(MainParagraph);
-
-        // example of deletion
-        //document.getElementById("AboutUsButton").remove();
-        //AboutUsButton.remove();
-
-        // ES6 and HTLM5 => Template Strings => "Super Strings"
-
-        let tom = new Contact("Tom", "5555555555", "tom@example.com");
-        console.log(tom.toString());
     }
 
 
