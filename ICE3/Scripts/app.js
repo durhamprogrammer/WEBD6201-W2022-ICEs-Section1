@@ -6,6 +6,8 @@
 {
     function DisplayHome()
     {
+        console.log("Home Page");
+
         let AboutUsButton = document.getElementById("AboutUsButton");
         AboutUsButton.addEventListener("click", function()
         {
@@ -39,19 +41,57 @@
 
     }
 
+    function DisplayAboutPage()
+    {
+        console.log("About Us Page");
+    }
+
+    function DisplayProjectsPage()
+    {
+        console.log("Our Projects Page");
+    }
+
+    function DisplayServicesPage()
+    {
+        console.log("Our Services Page");
+    }
+
+    function DisplayContactPage()
+    {
+        console.log("Contact Us Page");
+    }
+
+    function DisplayContactListPage()
+    {
+        console.log("Contact-List Page");
+    }
+
 
     // named function
     function Start()
     {
         console.log("App Started!!");
 
-        switch(document.title)
-        {
-            case "Home":
-                DisplayHome();
-                break;
+        switch (document.title) {
+          case "Home":
+            DisplayHome();
+            break;
+          case "About Us":
+            DisplayAboutPage();
+            break;
+          case "Our Projects":
+            DisplayProjectsPage();
+            break;
+          case "Our Services":
+            DisplayServicesPage();
+            break;
+          case "Contact-List":
+            DisplayContactListPage();
+            break;
+          case "Contact Us":
+            DisplayContactPage();
+            break;
         }
-        
     }
     
 
