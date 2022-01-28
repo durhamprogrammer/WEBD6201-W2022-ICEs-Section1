@@ -54,7 +54,7 @@ class Contact
 
     deserialize(data) // assume that data is in a comma-separated format (string array of properties)
     {
-        let propertyArray = data.split(",")
+        let propertyArray = data.split(",");
         this.FullName = propertyArray[0];
         this.ContactNumber = propertyArray[1];
         this.EmailAddress = propertyArray[2];
