@@ -59,6 +59,20 @@
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
+
+        let sendButton = document.getElementById("sendButton");
+        let subscribeCheckbox = document.getElementById("subscribeCheckbox");
+
+        sendButton.addEventListener("click", function(event)
+        {
+            event.preventDefault(); // debugging purposes
+
+            if(subscribeCheckbox.checked)
+            {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                
+            }
+        });
     }
 
     function DisplayContactListPage()
