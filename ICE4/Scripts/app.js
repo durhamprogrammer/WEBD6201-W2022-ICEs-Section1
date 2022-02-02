@@ -8,11 +8,43 @@
     {
         console.log("Home Page");
 
-        let AboutUsButton = document.getElementById("AboutUsButton");
-        AboutUsButton.addEventListener("click", function()
+        //let AboutUsButton = document.getElementById("AboutUsButton");
+        
+        // 1) Fattest -> the jQuery way - returns an array (collection) of elements that match the query and attaches a click event
+        // $("#AboutUsButton").on("click", () => 
+        // {
+        //     location.href = "about.html";
+        // });
+
+        // 2) 2nd Fattest -> the JavaScript way - returns an array (collection) of elements - then loop through all of them
+        // document.querySelectorAll("#AboutUsButton").forEach(element =>
+        //     {
+        //         // attach a click event to each element in the list
+        //         element.addEventListener("click", ()=>
+        //         {
+        //             location.href = "about.html";
+        //         });
+        //     });
+          
+        // 3) Lean -> the JavaScript way - but only returns one Element and attaches a click event to it
+        document.querySelector("#AboutUsButton").addEventListener("click", () =>
         {
             location.href = "about.html";
-        });
+        });    
+
+        // 3) Leanest -> the JavaScript way - but only returns one HTMLElement and attaches a click event to it
+        // document.getElementById("AboutUsButton").addEventListener("click", () => 
+        // {
+        //     location.href = "about.html";
+        // });
+
+        
+
+
+        // AboutUsButton.addEventListener("click", function()
+        // {
+        //     location.href = "about.html";
+        // });
 
         // Step 1 - get a reference to an entry point(s) (insertion / deletion point)
         let MainContent = document.getElementsByTagName("main")[0];
