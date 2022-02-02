@@ -11,10 +11,10 @@
         //let AboutUsButton = document.getElementById("AboutUsButton");
         
         // 1) Fattest -> the jQuery way - returns an array (collection) of elements that match the query and attaches a click event
-        // $("#AboutUsButton").on("click", () => 
-        // {
-        //     location.href = "about.html";
-        // });
+        $("#AboutUsButton").on("click", () => 
+        {
+            location.href = "about.html";
+        });
 
         // 2) 2nd Fattest -> the JavaScript way - returns an array (collection) of elements - then loop through all of them
         // document.querySelectorAll("#AboutUsButton").forEach(element =>
@@ -27,10 +27,10 @@
         //     });
           
         // 3) Lean -> the JavaScript way - but only returns one Element and attaches a click event to it
-        document.querySelector("#AboutUsButton").addEventListener("click", () =>
-        {
-            location.href = "about.html";
-        });    
+        // document.querySelector("#AboutUsButton").addEventListener("click", () =>
+        // {
+        //     location.href = "about.html";
+        // });    
 
         // 3) Leanest -> the JavaScript way - but only returns one HTMLElement and attaches a click event to it
         // document.getElementById("AboutUsButton").addEventListener("click", () => 
@@ -47,29 +47,39 @@
         // });
 
         // Step 1 - get a reference to an entry point(s) (insertion / deletion point)
-        let MainContent = document.getElementsByTagName("main")[0];
-        let DocumentBody = document.body;
+        //let MainContent = document.getElementsByTagName("main")[0];
+        //let DocumentBody = document.body;
         
         // Step 2 - Create a HTML Element in memory
-        let MainParagraph = document.createElement("p");
-        let Article = document.createElement("article");
-        let ArticleParagraph = `<p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>`;
+        //let MainParagraph = document.createElement("p");
+        //let Article = document.createElement("article");
+        //let ArticleParagraph = `<p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>`;
+
+        
 
         // Step 3 - Configure new Element
-        MainParagraph.setAttribute("id", "MainParagraph");
-        MainParagraph.setAttribute("class", "mt-3");
-        let FirstString = "This is";
-        let SecondString = `${FirstString} the Main Paragraph`;
-        MainParagraph.textContent = SecondString;
-        Article.setAttribute("class", "container");
+        //MainParagraph.setAttribute("id", "MainParagraph");
+
+
+
+        //MainParagraph.setAttribute("class", "mt-3");
+        //let FirstString = "This is";
+        //let SecondString = `${FirstString} the Main Paragraph`;
+        //MainParagraph.textContent = SecondString;
+        //Article.setAttribute("class", "container");
 
 
         // Step 4 - perform insertion / deletion
 
         // example of insert after (append)
-        MainContent.appendChild(MainParagraph);
-        Article.innerHTML = ArticleParagraph;
-        DocumentBody.appendChild(Article);
+        //MainContent.appendChild(MainParagraph);
+
+        $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
+        //Article.innerHTML = ArticleParagraph;
+        $("body").append(`
+        <article class="container">
+            <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
+            </article>`);
 
     }
 
