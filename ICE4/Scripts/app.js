@@ -37,6 +37,24 @@
         console.log("Our Services Page");
     }
 
+    /**
+     * Adds a Contact Object to localStorage
+     *
+     * @param {string} fullName
+     * @param {string} contactNumber
+     * @param {string} emailAddress
+     */
+    function AddContact(fullName, contactNumber, emailAddress)
+    {
+        let contact = new Contact(fullName, contactNumber, emailAddress);
+        if(contact.serialize())
+        {
+            let key = contact.FullName.substring(0, 1) + Date.now();
+
+            localStorage.setItem(key, contact.serialize());
+        }
+    }
+
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
@@ -48,13 +66,7 @@
         {
             if(subscribeCheckbox.checked)
             { 
-                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
-                if(contact.serialize())
-                {
-                    let key = contact.FullName.substring(0, 1) + Date.now();
-
-                    localStorage.setItem(key, contact.serialize());
-                }
+                AddContact(fullName.value, contactNumber.value, emailAddress.value);
             }
         });
     }
@@ -91,16 +103,54 @@
                 </tr>
                 `;
 
-                
-
-
                 index++;
             }
 
             contactList.innerHTML = data;
+
+            $("#addButton").on("click",() =>
+            {
+                location.href = "edit.html#add";
+            });
         }
     }
 
+    function DisplayEditPage()
+    {
+        console.log("Edit Page");
+
+        let page = location.hash.substring(1);
+
+        switch(page)
+        {
+            case "add":
+                {
+                    $("main>h1").text("Add Contact");
+
+                    $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
+                
+                    $("#editButton").on("click", (event)=>
+                    {
+                        event.preventDefault();
+                        // Add Contact
+                        AddContact(fullName.value, contactNumber.value, emailAddress.value);
+                        // refresh the contact-list page
+                        location.href = "contact-list.html";
+                    });
+
+                    $("#cancelButton").on("click", () =>
+                    {
+                        location.href = "contact-list.html";
+                    });
+                }
+                break;
+            default:
+                {
+
+                }
+                break;
+        }
+    }
 
     // named function
     function Start()
@@ -125,6 +175,9 @@
             break;
           case "Contact Us":
             DisplayContactPage();
+            break;
+          case "Edit":
+            DisplayEditPage();
             break;
         }
     }
