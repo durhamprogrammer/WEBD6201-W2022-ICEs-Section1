@@ -46,7 +46,7 @@
      */
     function AddContact(fullName, contactNumber, emailAddress)
     {
-        let contact = new Contact(fullName, contactNumber, emailAddress);
+        let contact = new core.Contact(fullName, contactNumber, emailAddress);
         if(contact.serialize())
         {
             let key = contact.FullName.substring(0, 1) + Date.now();
@@ -89,7 +89,7 @@
             {
                 let contactData = localStorage.getItem(key); // get localStorage data value related to the key
 
-                let contact = new Contact(); // create a new empty contact object
+                let contact = new core.Contact(); // create a new empty contact object
                 contact.deserialize(contactData);
 
                 // inject a repeatable row into the contactList
@@ -163,7 +163,7 @@
             default:
                 {
                     // get the contact  info from localStorage
-                    let contact = new Contact();
+                    let contact = new core.Contact();
                     contact.deserialize(localStorage.getItem(page));
 
                     // display the contact info in the edit form
