@@ -55,9 +55,37 @@
         }
     }
 
+
+    function TestFullName()
+    {
+        let messageArea = $("#messageArea").hide();
+        let fullNamePattern = /([A-Z][a-z]{1,})+(\s|,|-)([A-Z][a-z]{1,})+(\s|,|-)*/;
+
+        $("#fullName").on("blur", function()
+        {
+            let fullNameText = $(this).val();
+
+            if(!fullNamePattern.test(fullNameText))
+            {
+                $(this).trigger("focus"); // trigger the focus event to fire
+                $(this).trigger("select"); // trigger the select event to fire
+                messageArea.show(); // shows the message area
+                messageArea.addClass("alert alert-danger"); // adds an alert class
+                messageArea.text("Please enter a valid Full Name."); // changes the text value
+            }
+            else
+            {
+                messageArea.removeAttr("class").hide();
+            }
+        });
+
+    }
+
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
+
+        TestFullName();
 
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
