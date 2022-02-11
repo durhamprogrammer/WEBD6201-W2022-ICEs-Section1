@@ -81,11 +81,65 @@
 
     }
 
+    function TestContactNumber()
+    {
+        let messageArea = $("#messageArea").hide();
+        let contactNumberPattern = /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/;
+
+        $("#contactNumber").on("blur", function()
+        {
+            let contactNumberText = $(this).val();
+
+            if(!contactNumberPattern.test(contactNumberText))
+            {
+                $(this).trigger("focus"); // trigger the focus event to fire
+                $(this).trigger("select"); // trigger the select event to fire
+                messageArea.show(); // shows the message area
+                messageArea.addClass("alert alert-danger"); // adds an alert class
+                messageArea.text("Please enter a valid Contact Number."); // changes the text value
+            }
+            else
+            {
+                messageArea.removeAttr("class").hide();
+            }
+        });
+
+    }
+
+    function TestEmailAddress()
+    {
+        let messageArea = $("#messageArea").hide();
+        let emailAddressPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+
+        $("#emailAddress").on("blur", function()
+        {
+            let emailAddressText = $(this).val();
+
+            if(!emailAddressPattern.test(emailAddressText))
+            {
+                $(this).trigger("focus"); // trigger the focus event to fire
+                $(this).trigger("select"); // trigger the select event to fire
+                messageArea.show(); // shows the message area
+                messageArea.addClass("alert alert-danger"); // adds an alert class
+                messageArea.text("Please enter a valid Email Address."); // changes the text value
+            }
+            else
+            {
+                messageArea.removeAttr("class").hide();
+            }
+        });
+
+    }
+
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
 
         TestFullName();
+
+        TestContactNumber();
+
+        TestEmailAddress();
 
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
