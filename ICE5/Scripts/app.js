@@ -73,11 +73,8 @@
 
             if(!regular_expression.test(inputFieldText))
             {
-                $(this).trigger("focus"); 
-                $(this).trigger("select"); 
-                messageArea.show(); 
-                messageArea.addClass("alert alert-danger"); 
-                messageArea.text(error_message); // 
+                $(this).trigger("focus").trigger("select"); 
+                messageArea.addClass("alert alert-danger").text(error_message).show(); 
             }
             else
             {
@@ -86,14 +83,19 @@
         });
     }
 
+    function ContactFormValidation()
+    {
+        ValidateField("fullName", /^([A-Z][a-z]{1,3}\.?\s)?([A-Z][a-z]{1,})+([\s,-]([A-Z][a-z]{1,}))*$/,"Please enter a valid Full Name.");
+        ValidateField("contactNumber", /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/, "Please enter a valid Contact Number.");
+        ValidateField("emailAddress", /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/, "Please enter a valid Email Address.");
+    }
+
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
 
-        ValidateField("fullName", /^([A-Z][a-z]{1,3}\.?\s)?([A-Z][a-z]{1,})+([\s,-]([A-Z][a-z]{1,}))*$/,"Please enter a valid Full Name.");
-        ValidateField("contactNumber", /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/, "Please enter a valid Contact Number.");
-        ValidateField("emailAddress", /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/, "Please enter a valid Email Address.");
-
+        ContactFormValidation();
+        
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
 
@@ -169,6 +171,8 @@
     function DisplayEditPage()
     {
         console.log("Edit Page");
+
+        ContactFormValidation();
 
         let page = location.hash.substring(1);
 
