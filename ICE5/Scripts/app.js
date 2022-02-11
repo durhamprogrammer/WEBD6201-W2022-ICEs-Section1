@@ -236,6 +236,16 @@
         }
     }
 
+    function DisplayLoginPage()
+    {
+        console.log("Login Page");
+    }
+
+    function DisplayRegisiterPage()
+    {
+        console.log("Register Page");
+    }
+
     // named function
     function Start()
     {
@@ -262,6 +272,12 @@
             break;
           case "Edit":
             DisplayEditPage();
+            break;
+            case "Login":
+            DisplayLoginPage();
+            break;
+            case "Register":
+            DisplayRegisiterPage();
             break;
         }
     }
