@@ -59,7 +59,7 @@
     function TestFullName()
     {
         let messageArea = $("#messageArea").hide();
-        let fullNamePattern = /([A-Z][a-z]{1,})+(\s|,|-)([A-Z][a-z]{1,})+(\s|,|-)*/;
+        let fullNamePattern = /^([A-Z][a-z]{1,3}.?\s)?([A-Z][a-z]{1,})+([\s,-]([A-Z][a-z]{1,}))*$/;
 
         $("#fullName").on("blur", function()
         {
