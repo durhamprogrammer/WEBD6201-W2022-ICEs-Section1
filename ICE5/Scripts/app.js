@@ -55,91 +55,44 @@
         }
     }
 
-
-    function TestFullName()
+    /**
+     * This method validates an input text field in the form and displays
+     * an error in the message area
+     *
+     * @param {string} input_field_ID
+     * @param {RegExp} regular_expression
+     * @param {string} error_message
+     */
+    function ValidateField(input_field_ID, regular_expression, error_message)
     {
         let messageArea = $("#messageArea").hide();
-        let fullNamePattern = /^([A-Z][a-z]{1,3}.?\s)?([A-Z][a-z]{1,})+([\s,-]([A-Z][a-z]{1,}))*$/;
-
-        $("#fullName").on("blur", function()
+        
+        $("#" + input_field_ID).on("blur", function()
         {
-            let fullNameText = $(this).val();
+            let inputFieldText = $(this).val();
 
-            if(!fullNamePattern.test(fullNameText))
+            if(!regular_expression.test(inputFieldText))
             {
-                $(this).trigger("focus"); // trigger the focus event to fire
-                $(this).trigger("select"); // trigger the select event to fire
-                messageArea.show(); // shows the message area
-                messageArea.addClass("alert alert-danger"); // adds an alert class
-                messageArea.text("Please enter a valid Full Name."); // changes the text value
+                $(this).trigger("focus"); 
+                $(this).trigger("select"); 
+                messageArea.show(); 
+                messageArea.addClass("alert alert-danger"); 
+                messageArea.text(error_message); // 
             }
             else
             {
                 messageArea.removeAttr("class").hide();
             }
         });
-
-    }
-
-    function TestContactNumber()
-    {
-        let messageArea = $("#messageArea").hide();
-        let contactNumberPattern = /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/;
-
-        $("#contactNumber").on("blur", function()
-        {
-            let contactNumberText = $(this).val();
-
-            if(!contactNumberPattern.test(contactNumberText))
-            {
-                $(this).trigger("focus"); // trigger the focus event to fire
-                $(this).trigger("select"); // trigger the select event to fire
-                messageArea.show(); // shows the message area
-                messageArea.addClass("alert alert-danger"); // adds an alert class
-                messageArea.text("Please enter a valid Contact Number."); // changes the text value
-            }
-            else
-            {
-                messageArea.removeAttr("class").hide();
-            }
-        });
-
-    }
-
-    function TestEmailAddress()
-    {
-        let messageArea = $("#messageArea").hide();
-        let emailAddressPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
-
-        $("#emailAddress").on("blur", function()
-        {
-            let emailAddressText = $(this).val();
-
-            if(!emailAddressPattern.test(emailAddressText))
-            {
-                $(this).trigger("focus"); // trigger the focus event to fire
-                $(this).trigger("select"); // trigger the select event to fire
-                messageArea.show(); // shows the message area
-                messageArea.addClass("alert alert-danger"); // adds an alert class
-                messageArea.text("Please enter a valid Email Address."); // changes the text value
-            }
-            else
-            {
-                messageArea.removeAttr("class").hide();
-            }
-        });
-
     }
 
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
 
-        TestFullName();
-
-        TestContactNumber();
-
-        TestEmailAddress();
+        ValidateField("fullName", /^([A-Z][a-z]{1,3}\.?\s)?([A-Z][a-z]{1,})+([\s,-]([A-Z][a-z]{1,}))*$/,"Please enter a valid Full Name.");
+        ValidateField("contactNumber", /^(\+\d{1,3}[\s-.])?\(?\d{3}\)?[\s-.]?\d{3}[\s-.]?\d{4}$/, "Please enter a valid Contact Number.");
+        ValidateField("emailAddress", /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/, "Please enter a valid Email Address.");
 
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
