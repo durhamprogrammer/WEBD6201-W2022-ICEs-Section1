@@ -4,9 +4,51 @@
 "use strict";
 (function()
 {
+    /**
+     * This function uses AJAX open a connection to the url and returns data to the callback function
+     *
+     * @param {string} method
+     * @param {string} url
+     * @param {Function} callback
+     */
+    function AjaxRequest(method, url, callback)
+    {
+        // step 1 - create a new XHR object
+        let XHR = new XMLHttpRequest();
+
+        // step 2 - create an event
+        XHR.addEventListener("readystatechange", ()=>
+        {
+            if(XHR.readyState === 4 && XHR.status === 200)
+            {
+               callback(XHR.responseText);
+            }
+        });
+
+        // step 3 - open a request
+        XHR.open(method, url);
+
+        // step 4 - send the request
+        XHR.send();
+    }
+
+    /**
+     * This function loads the Navbar from the header file and injects into the page
+     *
+     * @param {*} data
+     */
+    function LoadHeader(data)
+    {
+        $("header").html(data);
+        $(`li>a:contains(${document.title})`).addClass("active");
+    }
+
+
     function DisplayHome()
     {
         console.log("Home Page");
+
+        
 
         $("#AboutUsButton").on("click", () => 
         {
@@ -21,24 +63,7 @@
             </article>`);
 
 
-        // step 1 - create a new XHR object
-        let XHR = new XMLHttpRequest();
-
-        // step 2 - create an event
-        XHR.addEventListener("readystatechange", ()=>
-        {
-            if(XHR.readyState === 4 && XHR.status === 200)
-            {
-               $("header").html(XHR.responseText);
-               $(`li>a:contains(${document.title})`).addClass("active");
-            }
-        });
-
-        // step 3 - open a request
-        XHR.open("GET", "header.html");
-
-        // step 4 - send the request
-        XHR.send();
+        
 
     }
 
@@ -261,7 +286,7 @@
         console.log("Login Page");
     }
 
-    function DisplayRegisiterPage()
+    function DisplayRegisterPage()
     {
         console.log("Register Page");
     }
@@ -271,7 +296,8 @@
     {
         console.log("App Started!!");
 
-        switch (document.title) {
+        switch (document.title) 
+        {
           case "Home":
             DisplayHome();
             break;
@@ -297,9 +323,11 @@
             DisplayLoginPage();
             break;
             case "Register":
-            DisplayRegisiterPage();
+            DisplayRegisterPage();
             break;
         }
+
+        AjaxRequest("GET", "header.html", LoadHeader);
     }
     
 
