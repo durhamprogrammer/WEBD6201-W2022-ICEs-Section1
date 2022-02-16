@@ -20,6 +20,26 @@
             <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
             </article>`);
 
+
+        // step 1 - create a new XHR object
+        let XHR = new XMLHttpRequest();
+
+        // step 2 - create an event
+        XHR.addEventListener("readystatechange", ()=>
+        {
+            if(XHR.readyState === 4 && XHR.status === 200)
+            {
+               $("header").html(XHR.responseText);
+               $(`li>a:contains(${document.title})`).addClass("active");
+            }
+        });
+
+        // step 3 - open a request
+        XHR.open("GET", "header.html");
+
+        // step 4 - send the request
+        XHR.send();
+
     }
 
     function DisplayAboutPage()
