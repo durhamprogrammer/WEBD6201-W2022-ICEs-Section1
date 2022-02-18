@@ -35,12 +35,13 @@
     /**
      * This function loads the Navbar from the header file and injects into the page
      *
-     * @param {*} data
+     * @param {string} data
      */
     function LoadHeader(data)
     {
         $("header").html(data);
         $(`li>a:contains(${document.title})`).addClass("active");
+        CheckLogin();
     }
 
 
@@ -342,6 +343,27 @@
         });
     }
 
+    function CheckLogin()
+    {
+        // if user is logged in, then...
+        if(sessionStorage.getItem("user"))
+        {
+            // swap out the login link for logout
+            $("#login").html(
+                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
+            );
+
+            $("#logout").on("click", function()
+            {
+                // perform logout
+                sessionStorage.clear();
+                
+                // redirect back to login page
+                location.href = "login.html";
+            });
+        }
+    }
+
     function DisplayRegisterPage()
     {
         console.log("Register Page");
@@ -351,6 +373,8 @@
     function Start()
     {
         console.log("App Started!!");
+
+        AjaxRequest("GET", "header.html", LoadHeader);
 
         switch (document.title) 
         {
@@ -383,7 +407,7 @@
             break;
         }
 
-        AjaxRequest("GET", "header.html", LoadHeader);
+        
     }
     
 
