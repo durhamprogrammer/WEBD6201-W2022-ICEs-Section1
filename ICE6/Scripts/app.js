@@ -44,7 +44,6 @@
         CheckLogin();
     }
 
-
     function DisplayHome()
     {
         console.log("Home Page");
@@ -62,10 +61,6 @@
         <article class="container">
             <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
             </article>`);
-
-
-        
-
     }
 
     function DisplayAboutPage()
@@ -157,6 +152,7 @@
     function DisplayContactListPage()
     {
         console.log("Contact-List Page");
+
         if(localStorage.length > 0)
         {
             let contactList = document.getElementById("contactList");
