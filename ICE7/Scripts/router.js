@@ -95,3 +95,29 @@
     core.Router = Router;
 
 })(core || (core = {}));
+
+let router = new core.Router();
+router.AddTable([
+    "/",
+    "/home",
+    "/about",
+    "/services",
+    "/contact",
+    "/contact-list",
+    "/projects",
+    "/register",
+    "/login",
+    "/edit"
+]);
+
+let route = location.pathname; // alias for location.pathname
+
+if(router.Find(route) > -1)
+{
+    router.ActiveLink = (route == "/") ? "home" : route.substring(1);
+}
+else
+{
+    router.ActiveLink = "404"; // file not found
+}
+
