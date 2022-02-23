@@ -365,6 +365,38 @@
         console.log("Register Page");
     }
 
+    function Display404()
+    {
+        
+    }
+
+    /**
+     * This function returns the appropriate callback function relative to the activeLink
+     *
+     * @param {string} activeLink
+     * @returns {function}
+     */
+    function ActiveLinkCallBack(activeLink)
+    {
+        switch (activeLink) 
+        {
+          case "home": return DisplayHome;
+          case "about": return DisplayAboutPage;
+          case "projects": return DisplayProjectsPage;
+          case "services": return DisplayServicesPage;
+          case "contact-List": return DisplayContactListPage;
+          case "contact": return DisplayContactPage;
+          case "edit": return DisplayEditPage;
+          case "login": return DisplayLoginPage;
+          case "register": return DisplayRegisterPage;
+          case "404": return Display404;
+          default:
+              console.error("ERROR: callback does not exist: " + activeLink);
+              break;
+        }
+    }
+
+
     // named function
     function Start()
     {
