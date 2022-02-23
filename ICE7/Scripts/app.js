@@ -44,6 +44,19 @@
         CheckLogin();
     }
 
+    /**
+     *
+     *
+     * @param {string} pageName
+     * @param {function} callback
+     * @returns {void}
+     */
+    function LoadContent(pageName, callback)
+    {
+        // use Ajax to load the view and inject html content into the content area
+        // call the callback function to perform any JavaScript operations
+    }
+
     function DisplayHome()
     {
         console.log("Home Page");
@@ -367,7 +380,7 @@
 
     function Display404()
     {
-        
+
     }
 
     /**
@@ -396,45 +409,17 @@
         }
     }
 
-
     // named function
     function Start()
     {
         console.log("App Started!!");
 
+        // LoadHeader
         AjaxRequest("GET", "header.html", LoadHeader);
 
-        switch (document.title) 
-        {
-          case "Home":
-            DisplayHome();
-            break;
-          case "About Us":
-            DisplayAboutPage();
-            break;
-          case "Our Projects":
-            DisplayProjectsPage();
-            break;
-          case "Our Services":
-            DisplayServicesPage();
-            break;
-          case "Contact-List":
-            DisplayContactListPage();
-            break;
-          case "Contact Us":
-            DisplayContactPage();
-            break;
-          case "Edit":
-            DisplayEditPage();
-            break;
-            case "Login":
-            DisplayLoginPage();
-            break;
-            case "Register":
-            DisplayRegisterPage();
-            break;
-        }
+        LoadContent (router.ActiveLink);
 
+        // LoadFooter
         
     }
     
