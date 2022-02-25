@@ -42,7 +42,9 @@
         {
             $("header").html(html_data);
 
-            //TODO: We need to fix this
+            document.title = router.ActiveLink.substring(0, 1).toUpperCase() +
+                router.ActiveLink.substring(1);
+
             $(`li>a:contains(${document.title})`).addClass("active");
             CheckLogin();
         });
