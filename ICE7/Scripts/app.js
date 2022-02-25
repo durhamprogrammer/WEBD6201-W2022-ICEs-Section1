@@ -82,7 +82,7 @@
 
         $("#AboutUsButton").on("click", () => 
         {
-            location.href = "about.html";
+            location.href = "/about";
         });
 
         $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
@@ -219,7 +219,7 @@
 
             $("#addButton").on("click",() =>
             {
-                location.href = "edit.html#add";
+                location.href = "/edit#add";
             });
 
             $("button.delete").on("click", function()
@@ -230,12 +230,12 @@
                 }
 
                 // refresh after deleting
-                location.href = "contact-list.html";
+                location.href = "/contact-list";
             });
 
             $("button.edit").on("click", function()
             {
-                location.href = "edit.html#" + $(this).val();
+                location.href = "/edit#" + $(this).val();
             });
         }
     }
@@ -262,12 +262,12 @@
                         // Add Contact
                         AddContact(fullName.value, contactNumber.value, emailAddress.value);
                         // refresh the contact-list page
-                        location.href = "contact-list.html";
+                        location.href = "/contact-list";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href = "contact-list.html";
+                        location.href = "/contact-list";
                     });
                 }
                 break;
@@ -296,12 +296,12 @@
                         localStorage.setItem(page, contact.serialize());
 
                         // return to the contact-list
-                        location.href = "contact-list.html";
+                        location.href = "/contact-list";
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href = "contact-list.html";
+                        location.href = "/contact-list";
                     });
                 }
                 break;
@@ -348,7 +348,7 @@
                     messageArea.removeAttr("class").hide();
 
                     // redirect the user to the secure area of the site - contact-list.html
-                    location.href = "contact-list.html";
+                    location.href = "/contact-list";
                 }
                 else
                 {
@@ -365,7 +365,7 @@
             document.forms[0].reset();
 
             // return to the home page
-            location.href = "index.html";
+            location.href = "/home";
         });
     }
 
@@ -385,7 +385,7 @@
                 sessionStorage.clear();
                 
                 // redirect back to login page
-                location.href = "login.html";
+                location.href = "/login";
             });
         }
     }
@@ -413,7 +413,7 @@
           case "about": return DisplayAboutPage;
           case "projects": return DisplayProjectsPage;
           case "services": return DisplayServicesPage;
-          case "contact-List": return DisplayContactListPage;
+          case "contact-list": return DisplayContactListPage;
           case "contact": return DisplayContactPage;
           case "edit": return DisplayEditPage;
           case "login": return DisplayLoginPage;
