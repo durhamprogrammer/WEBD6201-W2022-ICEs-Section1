@@ -35,26 +35,43 @@
     /**
      * This function loads the Navbar from the header file and injects into the page
      *
-     * @param {string} data
      */
-    function LoadHeader(data)
+    function LoadHeader()
     {
-        $("header").html(data);
-        $(`li>a:contains(${document.title})`).addClass("active");
-        CheckLogin();
+        $.get("./Views/components/header.html", function(html_data)
+        {
+            $("header").html(html_data);
+
+            //TODO: We need to fix this
+            $(`li>a:contains(${document.title})`).addClass("active");
+            CheckLogin();
+        });
+        
     }
 
     /**
      *
      *
-     * @param {string} pageName
-     * @param {function} callback
      * @returns {void}
      */
-    function LoadContent(pageName, callback)
+    function LoadContent()
     {
-        // use Ajax to load the view and inject html content into the content area
-        // call the callback function to perform any JavaScript operations
+        let page_name = router.ActiveLink; //alias
+        let callback = ActiveLinkCallBack();
+        $.get(`./Views/content/${page_name}.html`, function(html_data)
+        {
+            $("main").html(html_data);
+
+            callback();
+        });
+    }
+
+    function LoadFooter()
+    {
+        $.get("./Views/components/footer.html", function(html_data)
+        {
+            $("footer").html(html_data);
+        });
     }
 
     function DisplayHome()
@@ -386,12 +403,11 @@
     /**
      * This function returns the appropriate callback function relative to the activeLink
      *
-     * @param {string} activeLink
      * @returns {function}
      */
-    function ActiveLinkCallBack(activeLink)
+    function ActiveLinkCallBack()
     {
-        switch (activeLink) 
+        switch (router.ActiveLink) 
         {
           case "home": return DisplayHome;
           case "about": return DisplayAboutPage;
@@ -404,7 +420,7 @@
           case "register": return DisplayRegisterPage;
           case "404": return Display404;
           default:
-              console.error("ERROR: callback does not exist: " + activeLink);
+              console.error("ERROR: callback does not exist: " + router.ActiveLink);
               break;
         }
     }
@@ -414,17 +430,13 @@
     {
         console.log("App Started!!");
 
-        // LoadHeader
-        AjaxRequest("GET", "header.html", LoadHeader);
+        LoadHeader()
 
-        LoadContent (router.ActiveLink);
+        LoadContent();
 
-        // LoadFooter
-        
+        LoadFooter();
     }
     
-
     window.addEventListener("load", Start);
-
 
 })();
