@@ -48,14 +48,14 @@ namespace core
     
         // public utility methods
     
-        serialize() : string | null
+        serialize() : string
         {
             if(this.FullName !== "" && this.ContactNumber !== "" && this.EmailAddress !== "")
             {
                 return `${this.FullName},${this.ContactNumber},${this.EmailAddress}`;
             }
             console.error("One or more properties of the Contact Object are missing or invalid");
-            return null;
+            return "";
         }
     
         deserialize(data: string): void // assume that data is in a comma-separated format (string array of properties)

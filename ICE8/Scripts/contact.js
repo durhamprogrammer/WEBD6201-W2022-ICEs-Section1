@@ -33,7 +33,7 @@ var core;
                 return `${this.FullName},${this.ContactNumber},${this.EmailAddress}`;
             }
             console.error("One or more properties of the Contact Object are missing or invalid");
-            return null;
+            return "";
         }
         deserialize(data) {
             let propertyArray = data.split(",");
