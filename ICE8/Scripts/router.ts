@@ -3,6 +3,7 @@ namespace core
     export class Router
     {
         private m_activeLink: string;
+        private m_linkData: string;
         private m_routingTable: string[];
 
         // public properties (getters and setters)
@@ -16,6 +17,16 @@ namespace core
             this.m_activeLink = link;
         }
 
+        get LinkData(): string
+        {
+            return this.m_linkData;
+        }
+
+        set LinkData(data:string)
+        {
+            this.m_linkData = data;
+        }
+
         // constructor
 
         /**
@@ -26,6 +37,7 @@ namespace core
         constructor()
         {
             this.m_activeLink = "";
+            this.m_linkData = "";
             this.m_routingTable = []; // creates an empty array
         }
         
