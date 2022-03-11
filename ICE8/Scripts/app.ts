@@ -108,6 +108,7 @@
         {
             $("header").html(html_data);
 
+            AddNavigationEvents();
             
             CheckLogin();
         });
@@ -126,6 +127,8 @@
         $.get(`./Views/content/${page_name}.html`, function(html_data)
         {
             $("main").html(html_data);
+
+            CheckLogin();
 
             callback();
         });
@@ -149,8 +152,8 @@
 
         $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
 
-        $("body").append(`
-        <article class="container">
+        $("main").append(`
+        <article>
             <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
             </article>`);
     }
@@ -227,6 +230,12 @@
     {
         console.log("Contact Us Page");
 
+        $("a[data='contact-list']").off("click");
+        $("a[data='contact-list']").on("click", function()
+        {
+            LoadLink("contact-list");
+        });
+
         ContactFormValidation();
         
         let sendButton = document.getElementById("sendButton") as HTMLElement;
@@ -285,7 +294,7 @@
 
             $("#addButton").on("click",() =>
             {
-                location.href = "/edit#add";
+                LoadLink("edit", "add");
             });
 
             $("button.delete").on("click", function()
@@ -296,12 +305,12 @@
                 }
 
                 // refresh after deleting
-                location.href = "/contact-list";
+                LoadLink("contact-list");
             });
 
             $("button.edit").on("click", function()
             {
-                location.href = "/edit#" + $(this).val();
+                LoadLink("edit", $(this).val() as string)
             });
         }
     }
@@ -312,7 +321,7 @@
 
         ContactFormValidation();
 
-        let page = location.hash.substring(1);
+        let page = router.LinkData;
 
         switch(page)
         {
@@ -332,13 +341,14 @@
 
                         // Add Contact
                         AddContact(fullName, contactNumber, emailAddress);
+
                         // refresh the contact-list page
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                 }
                 break;
@@ -367,15 +377,41 @@
                         localStorage.setItem(page, contact.serialize());
 
                         // return to the contact-list
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
 
                     $("#cancelButton").on("click", () =>
                     {
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                 }
                 break;
+        }
+    }
+
+    function CheckLogin()
+    {
+        // if user is logged in, then...
+        if(sessionStorage.getItem("user"))
+        {
+            // swap out the login link for logout
+            $("#login").html(
+                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
+            );
+
+            $("#logout").on("click", function()
+            {
+                // perform logout
+                sessionStorage.clear();
+
+                // swap out the logout link for login
+                $("#login").html(
+                    `<a class="nav-link" data="login"><i class="fas fa-sign-in-alt"></i> Login</a>`
+                );
+                
+                // redirect back to login page
+                LoadLink("login");
+            });
         }
     }
 
@@ -384,6 +420,8 @@
         console.log("Login Page");
         let messageArea = $("#messageArea");
         messageArea.hide();
+
+        AddLinkEvents("register");
 
         $("#loginButton").on("click", function()
         {
@@ -422,7 +460,7 @@
                     messageArea.removeAttr("class").hide();
 
                     // redirect the user to the secure area of the site - contact-list.html
-                    location.href = "/contact-list";
+                    LoadLink("contact-list");
                 }
                 else
                 {
@@ -439,34 +477,15 @@
             document.forms[0].reset();
 
             // return to the home page
-            location.href = "/home";
+            LoadLink("home");
         });
-    }
-
-    function CheckLogin()
-    {
-        // if user is logged in, then...
-        if(sessionStorage.getItem("user"))
-        {
-            // swap out the login link for logout
-            $("#login").html(
-                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
-            );
-
-            $("#logout").on("click", function()
-            {
-                // perform logout
-                sessionStorage.clear();
-                
-                // redirect back to login page
-                location.href = "/login";
-            });
-        }
     }
 
     function DisplayRegisterPage()
     {
         console.log("Register Page");
+
+        AddLinkEvents("login");
     }
 
     function Display404()
@@ -504,9 +523,9 @@
     {
         console.log("App Started!!");
 
-        LoadHeader()
+        LoadHeader();
 
-        LoadContent();
+        LoadLink("home");
 
         LoadFooter();
     }

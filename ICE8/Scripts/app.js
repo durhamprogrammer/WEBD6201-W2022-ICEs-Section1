@@ -55,6 +55,7 @@
     function LoadHeader() {
         $.get("./Views/components/header.html", function (html_data) {
             $("header").html(html_data);
+            AddNavigationEvents();
             CheckLogin();
         });
     }
@@ -63,6 +64,7 @@
         let callback = ActiveLinkCallBack();
         $.get(`./Views/content/${page_name}.html`, function (html_data) {
             $("main").html(html_data);
+            CheckLogin();
             callback();
         });
     }
@@ -77,8 +79,8 @@
             location.href = "/about";
         });
         $("main").append(`<p id="MainParagraph" class="mt-3">This is the Main Paragraph</p>`);
-        $("body").append(`
-        <article class="container">
+        $("main").append(`
+        <article>
             <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
             </article>`);
     }
@@ -118,6 +120,10 @@
     }
     function DisplayContactPage() {
         console.log("Contact Us Page");
+        $("a[data='contact-list']").off("click");
+        $("a[data='contact-list']").on("click", function () {
+            LoadLink("contact-list");
+        });
         ContactFormValidation();
         let sendButton = document.getElementById("sendButton");
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
@@ -154,23 +160,23 @@
             }
             contactList.innerHTML = data;
             $("#addButton").on("click", () => {
-                location.href = "/edit#add";
+                LoadLink("edit", "add");
             });
             $("button.delete").on("click", function () {
                 if (confirm("Are you sure?")) {
                     localStorage.removeItem($(this).val());
                 }
-                location.href = "/contact-list";
+                LoadLink("contact-list");
             });
             $("button.edit").on("click", function () {
-                location.href = "/edit#" + $(this).val();
+                LoadLink("edit", $(this).val());
             });
         }
     }
     function DisplayEditPage() {
         console.log("Edit Page");
         ContactFormValidation();
-        let page = location.hash.substring(1);
+        let page = router.LinkData;
         switch (page) {
             case "add":
                 {
@@ -182,10 +188,10 @@
                         let contactNumber = document.forms[0].contactNumber.value;
                         let emailAddress = document.forms[0].emailAddress.value;
                         AddContact(fullName, contactNumber, emailAddress);
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                     $("#cancelButton").on("click", () => {
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                 }
                 break;
@@ -202,19 +208,30 @@
                         contact.ContactNumber = $("#contactNumber").val();
                         contact.EmailAddress = $("#emailAddress").val();
                         localStorage.setItem(page, contact.serialize());
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                     $("#cancelButton").on("click", () => {
-                        location.href = "/contact-list";
+                        LoadLink("contact-list");
                     });
                 }
                 break;
+        }
+    }
+    function CheckLogin() {
+        if (sessionStorage.getItem("user")) {
+            $("#login").html(`<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`);
+            $("#logout").on("click", function () {
+                sessionStorage.clear();
+                $("#login").html(`<a class="nav-link" data="login"><i class="fas fa-sign-in-alt"></i> Login</a>`);
+                LoadLink("login");
+            });
         }
     }
     function DisplayLoginPage() {
         console.log("Login Page");
         let messageArea = $("#messageArea");
         messageArea.hide();
+        AddLinkEvents("register");
         $("#loginButton").on("click", function () {
             let success = false;
             let newUser = new core.User();
@@ -232,7 +249,7 @@
                 if (success) {
                     sessionStorage.setItem("user", newUser.serialize());
                     messageArea.removeAttr("class").hide();
-                    location.href = "/contact-list";
+                    LoadLink("contact-list");
                 }
                 else {
                     $("#username").trigger("focus").trigger("select");
@@ -242,20 +259,12 @@
         });
         $("#cancelButton").on("click", function () {
             document.forms[0].reset();
-            location.href = "/home";
+            LoadLink("home");
         });
-    }
-    function CheckLogin() {
-        if (sessionStorage.getItem("user")) {
-            $("#login").html(`<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`);
-            $("#logout").on("click", function () {
-                sessionStorage.clear();
-                location.href = "/login";
-            });
-        }
     }
     function DisplayRegisterPage() {
         console.log("Register Page");
+        AddLinkEvents("login");
     }
     function Display404() {
     }
@@ -279,7 +288,7 @@
     function Start() {
         console.log("App Started!!");
         LoadHeader();
-        LoadContent();
+        LoadLink("home");
         LoadFooter();
     }
     window.addEventListener("load", Start);
