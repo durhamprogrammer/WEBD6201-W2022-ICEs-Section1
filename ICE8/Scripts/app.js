@@ -1,11 +1,60 @@
 "use strict";
 (function () {
+    function AuthGuard() {
+        let protected_routes = [
+            "contact-list"
+        ];
+        if (protected_routes.indexOf(router.ActiveLink) > -1) {
+            if (!sessionStorage.getItem("user")) {
+                router.ActiveLink = "login";
+            }
+        }
+    }
+    function LoadLink(link, data = "") {
+        router.ActiveLink = link;
+        AuthGuard();
+        router.LinkData = data;
+        history.pushState({}, "", router.ActiveLink);
+        document.title = router.ActiveLink.substring(0, 1).toUpperCase() +
+            router.ActiveLink.substring(1);
+        $("ul>li>a").each(function () {
+            $(this).removeClass("active");
+        });
+        $(`li>a:contains(${document.title})`).addClass("active");
+        LoadContent();
+    }
+    function AddNavigationEvents() {
+        let navLinks = $("ul>li>a");
+        navLinks.off("click");
+        navLinks.off("mouseover");
+        navLinks.on("click", function () {
+            LoadLink($(this).attr("data"));
+        });
+        navLinks.on("mouseover", function () {
+            $(this).css("cursor", "pointer");
+        });
+    }
+    function AddLinkEvents(link) {
+        let linkQuery = $(`a.link[data=${link}]`);
+        linkQuery.off("click");
+        linkQuery.off("mouseover");
+        linkQuery.off("mouseout");
+        linkQuery.css("text-decoration", "underline");
+        linkQuery.css("color", "blue");
+        linkQuery.on("click", function () {
+            LoadLink(`${link}`);
+        });
+        linkQuery.on("mouseover", function () {
+            $(this).css("cursor", "pointer");
+            $(this).css("font-weight", "bold");
+        });
+        linkQuery.on("mouseout", function () {
+            $(this).css("font-weight", "normal");
+        });
+    }
     function LoadHeader() {
         $.get("./Views/components/header.html", function (html_data) {
             $("header").html(html_data);
-            document.title = router.ActiveLink.substring(0, 1).toUpperCase() +
-                router.ActiveLink.substring(1);
-            $(`li>a:contains(${document.title})`).addClass("active");
             CheckLogin();
         });
     }

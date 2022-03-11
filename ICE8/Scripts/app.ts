@@ -4,6 +4,100 @@
 "use strict";
 (function()
 {
+    function AuthGuard(): void
+    {
+        let protected_routes = [
+            "contact-list"
+        ];
+    
+        if(protected_routes.indexOf(router.ActiveLink) > -1)
+        {
+            // check if user is logged in
+            if(!sessionStorage.getItem("user"))
+            {
+                // if not...change the active link to "login"
+                router.ActiveLink = "login";
+            }
+        }
+    }
+
+    function LoadLink(link: string, data: string = ""): void
+    {
+        router.ActiveLink = link;
+
+        AuthGuard();
+
+        router.LinkData = data;
+        history.pushState({}, "", router.ActiveLink);
+
+        //Capitalize the router activeLink and set the title to it
+        document.title = router.ActiveLink.substring(0, 1).toUpperCase() +
+        router.ActiveLink.substring(1);
+
+        // remove all active links
+        $("ul>li>a").each(function()
+        {
+            $(this).removeClass("active");
+        });
+
+        $(`li>a:contains(${document.title})`).addClass("active");
+
+        LoadContent();
+    }
+
+    function AddNavigationEvents(): void
+    {
+        let navLinks = $("ul>li>a"); // find all navigation links
+
+        // remove navigation events
+        navLinks.off("click");
+        navLinks.off("mouseover");
+
+        // loop through each navigation link and load appropriate content on click
+        navLinks.on("click", function()
+        {
+            LoadLink($(this).attr("data") as string);
+        });
+
+        // make the navigation links look like they are clickable
+        navLinks.on("mouseover", function()
+        {
+            $(this).css("cursor", "pointer");
+        });
+    }
+
+    function AddLinkEvents(link: string): void
+    {
+        let linkQuery = $(`a.link[data=${link}]`);
+
+        // remove all link events
+        linkQuery.off("click");
+        linkQuery.off("mouseover");
+        linkQuery.off("mouseout");
+
+        // add css to adjust the link aesthetic
+        linkQuery.css("text-decoration", "underline");
+        linkQuery.css("color", "blue");
+
+        // add link events
+        linkQuery.on("click", function()
+        {
+            LoadLink(`${link}`);
+        });
+
+        linkQuery.on("mouseover", function()
+        {
+            $(this).css("cursor", "pointer");
+            $(this).css("font-weight", "bold");
+        });
+
+        linkQuery.on("mouseout", function()
+        {
+            $(this).css("font-weight", "normal");
+        });
+    }
+
+
     /**
      * This function loads the Navbar from the header file and injects into the page
      *
@@ -14,10 +108,7 @@
         {
             $("header").html(html_data);
 
-            document.title = router.ActiveLink.substring(0, 1).toUpperCase() +
-                router.ActiveLink.substring(1);
-
-            $(`li>a:contains(${document.title})`).addClass("active");
+            
             CheckLogin();
         });
         
