@@ -5,34 +5,6 @@
 (function()
 {
     /**
-     * This function uses AJAX open a connection to the url and returns data to the callback function
-     *
-     * @param {string} method
-     * @param {string} url
-     * @param {Function} callback
-     */
-    function AjaxRequest(method:string , url:string, callback:Function): void
-    {
-        // step 1 - create a new XHR object
-        let XHR = new XMLHttpRequest();
-
-        // step 2 - create an event
-        XHR.addEventListener("readystatechange", ()=>
-        {
-            if(XHR.readyState === 4 && XHR.status === 200)
-            {
-               callback(XHR.responseText);
-            }
-        });
-
-        // step 3 - open a request
-        XHR.open(method, url);
-
-        // step 4 - send the request
-        XHR.send();
-    }
-
-    /**
      * This function loads the Navbar from the header file and injects into the page
      *
      */
@@ -139,8 +111,7 @@
         
         $("#" + input_field_ID).on("blur", function()
         {
-            // TODO: fix the data type
-            let inputFieldText: any = $(this).val();
+            let inputFieldText: string = $(this).val() as string;
 
             if(!regular_expression.test(inputFieldText))
             {
@@ -167,14 +138,18 @@
 
         ContactFormValidation();
         
-        let sendButton = document.getElementById("sendButton");
-        let subscribeCheckbox = document.getElementById("subscribeCheckbox");
+        let sendButton = document.getElementById("sendButton") as HTMLElement;
+        let subscribeCheckbox = document.getElementById("subscribeCheckbox") as HTMLInputElement;
 
         sendButton.addEventListener("click", function()
         {
             if(subscribeCheckbox.checked)
             { 
-                AddContact(fullName.value, contactNumber.value, emailAddress.value);
+                let fullName = document.forms[0].fullName.value as string;
+                let contactNumber = document.forms[0].contactNumber.value as string;
+                let emailAddress = document.forms[0].emailAddress.value as string;
+
+                AddContact(fullName, contactNumber, emailAddress);
             }
         });
     }
@@ -185,7 +160,7 @@
 
         if(localStorage.length > 0)
         {
-            let contactList = document.getElementById("contactList");
+            let contactList = document.getElementById("contactList") as HTMLElement;
 
             let data = ""; // data container -> add deserialized data from the localStorage
 
@@ -199,7 +174,7 @@
                 let contactData = localStorage.getItem(key); // get localStorage data value related to the key
 
                 let contact = new core.Contact(); // create a new empty contact object
-                contact.deserialize(contactData);
+                contact.deserialize(contactData as string);
 
                 // inject a repeatable row into the contactList
                 data += `<tr>
@@ -226,7 +201,7 @@
             {
                 if(confirm("Are you sure?"))
                 {
-                    localStorage.removeItem($(this).val());
+                    localStorage.removeItem($(this).val() as string);
                 }
 
                 // refresh after deleting
@@ -259,8 +234,13 @@
                     $("#editButton").on("click", (event)=>
                     {
                         event.preventDefault();
+
+                        let fullName = document.forms[0].fullName.value as string;
+                        let contactNumber = document.forms[0].contactNumber.value as string;
+                        let emailAddress = document.forms[0].emailAddress.value as string;
+
                         // Add Contact
-                        AddContact(fullName.value, contactNumber.value, emailAddress.value);
+                        AddContact(fullName, contactNumber, emailAddress);
                         // refresh the contact-list page
                         location.href = "/contact-list";
                     });
@@ -275,7 +255,7 @@
                 {
                     // get the contact  info from localStorage
                     let contact = new core.Contact();
-                    contact.deserialize(localStorage.getItem(page));
+                    contact.deserialize(localStorage.getItem(page) as string);
 
                     // display the contact info in the edit form
                     $("#fullName").val(contact.FullName);
@@ -288,9 +268,9 @@
                         event.preventDefault();
 
                         // get any changes from the form
-                        contact.FullName = $("#fullName").val();
-                        contact.ContactNumber = $("#contactNumber").val();
-                        contact.EmailAddress = $("#emailAddress").val();
+                        contact.FullName = $("#fullName").val() as string;
+                        contact.ContactNumber = $("#contactNumber").val() as string;
+                        contact.EmailAddress = $("#emailAddress").val() as string;
 
                         // replace the item in localStorage
                         localStorage.setItem(page, contact.serialize());
@@ -321,6 +301,9 @@
             // create an empty user object
             let newUser = new core.User();
 
+            let username = document.forms[0].username.value as string;
+            let password = document.forms[0].password.value as string;
+
             // use jQuery shortcut to lod the users.json file
             $.get("./Data/users.json", function(data)
             {
@@ -328,7 +311,7 @@
                 for (const user of data.users) 
                 {
                     // check if the username and password entered matches the user data
-                    if(username.value == user.Username && password.value == user.Password)
+                    if(username == user.Username && password == user.Password)
                     {
                         console.log("conditional passed!");
                         // get the user data from the file and assign it to our empty user object
@@ -342,7 +325,7 @@
                 if(success)
                 {
                     // add user to session storage
-                    sessionStorage.setItem("user", newUser.serialize());
+                    sessionStorage.setItem("user", newUser.serialize() as string);
 
                     // hide any error message
                     messageArea.removeAttr("class").hide();

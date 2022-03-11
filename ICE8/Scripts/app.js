@@ -1,15 +1,5 @@
 "use strict";
 (function () {
-    function AjaxRequest(method, url, callback) {
-        let XHR = new XMLHttpRequest();
-        XHR.addEventListener("readystatechange", () => {
-            if (XHR.readyState === 4 && XHR.status === 200) {
-                callback(XHR.responseText);
-            }
-        });
-        XHR.open(method, url);
-        XHR.send();
-    }
     function LoadHeader() {
         $.get("./Views/components/header.html", function (html_data) {
             $("header").html(html_data);
@@ -84,7 +74,10 @@
         let subscribeCheckbox = document.getElementById("subscribeCheckbox");
         sendButton.addEventListener("click", function () {
             if (subscribeCheckbox.checked) {
-                AddContact(fullName.value, contactNumber.value, emailAddress.value);
+                let fullName = document.forms[0].fullName.value;
+                let contactNumber = document.forms[0].contactNumber.value;
+                let emailAddress = document.forms[0].emailAddress.value;
+                AddContact(fullName, contactNumber, emailAddress);
             }
         });
     }
@@ -136,7 +129,10 @@
                     $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
                     $("#editButton").on("click", (event) => {
                         event.preventDefault();
-                        AddContact(fullName.value, contactNumber.value, emailAddress.value);
+                        let fullName = document.forms[0].fullName.value;
+                        let contactNumber = document.forms[0].contactNumber.value;
+                        let emailAddress = document.forms[0].emailAddress.value;
+                        AddContact(fullName, contactNumber, emailAddress);
                         location.href = "/contact-list";
                     });
                     $("#cancelButton").on("click", () => {
@@ -173,9 +169,11 @@
         $("#loginButton").on("click", function () {
             let success = false;
             let newUser = new core.User();
+            let username = document.forms[0].username.value;
+            let password = document.forms[0].password.value;
             $.get("./Data/users.json", function (data) {
                 for (const user of data.users) {
-                    if (username.value == user.Username && password.value == user.Password) {
+                    if (username == user.Username && password == user.Password) {
                         console.log("conditional passed!");
                         newUser.fromJSON(user);
                         success = true;
