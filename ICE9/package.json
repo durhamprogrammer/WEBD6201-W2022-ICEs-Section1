@@ -1,0 +1,17 @@
+{
+  "name": "ice-7",
+  "version": "1.0.0",
+  "description": "Repo for WEBD6201-W2022 ICE-7",
+  "main": "index.js",
+  "author": "Tom Tsiliopoulos",
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@popperjs/core": "^2.11.2",
+    "bootstrap": "^5.1.3",
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.13"
+  }
+}
