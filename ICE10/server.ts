@@ -1,4 +1,27 @@
-import http from 'http'; // import pre-bundled module(s)
+import express from 'express';
+const app = express();
+
+const port = process.env.PORT || 3000;
+
+app.use("/", function(req, res)
+{
+  res.send("Hello, World!");
+});
+
+app.listen(port, function()
+{
+  console.log(`Server listening at ${port}`);
+});
+
+export default app;
+
+
+
+
+
+
+
+/* import http from 'http'; // import pre-bundled module(s)
 import fs from 'fs';
 import mime from 'mime-types'; // third-party module
 let lookup = mime.lookup; // alias for mime.lookup
@@ -35,4 +58,4 @@ const server = http.createServer(function(req, res)
 // like addEventListener("user req on a port")
 server.listen(port, function() {
   console.log(`Server running at Port:${port}`);
-});
+}); */
