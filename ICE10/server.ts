@@ -1,12 +1,36 @@
 import express from 'express';
+import path from 'path';
+let router = express.Router();
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-app.use("/", function(req, res)
+app.use(express.static(path.join(__dirname, "./Client")));
+app.use(express.static(path.join(__dirname, "./node_modules")));
+
+// app configuration
+app.set("views", path.join(__dirname, "./Views"));
+app.set("view engine", "ejs");
+
+
+
+app.use(router);
+
+router.get('/', function(req, res)
+{
+  res.render("index", {title: "Hello, World!"});
+});
+
+router.get('/home', function(req, res)
+{
+  res.render("index", {title: "Home"});
+});
+
+
+/* app.use("/", function(req, res)
 {
   res.send("Hello, World!");
-});
+}); */
 
 app.listen(port, function()
 {
