@@ -16,18 +16,22 @@
     <script src="Scripts/contact.js"></script>
     <script src="Scripts/user.js"></script>
 </head>
-<body>
+<body id="<%= page %>">
 
     <!-- Main Header -->
-    <header></header>
+    <header>
+        <%- include('./components/header') -%>
+    </header>
 
     <!-- Main Content -->
     <main class="container">
-        <%= title %>
+        <%- include('./content/' + page) -%>
     </main>
 
     <!-- Main Footer -->
-    <footer></footer>    
+    <footer>
+        <%- include('./components/footer') -%>
+    </footer>    
 
     <!-- Scripts that do depend on content -->
     <script src="jquery/dist/jquery.min.js"></script>
