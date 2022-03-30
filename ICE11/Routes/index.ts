@@ -66,6 +66,7 @@ router.get('/contact-list', function(req, res, next)
 
     console.log(contactsCollection);
   });
+  
   res.render('index', { title: 'Contact List', page: 'contact-list', displayName: '' });
 });
 
