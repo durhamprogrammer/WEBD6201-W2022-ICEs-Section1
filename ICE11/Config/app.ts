@@ -3,11 +3,27 @@ import express, { NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import mongoose, {mongo} from 'mongoose';
 
 import indexRouter from '../Routes/index';
 import usersRouter from '../Routes/users';
 
 const app = express();
+
+// DB configuration
+import * as DBConfig from './db';
+
+mongoose.connect(DBConfig.LocalURI);
+
+const db = mongoose.connection; // alias for the mongoose connection
+db.on('error', function()
+{
+  console.error('connection error');
+});
+
+db.once('open', function(){
+  console.log(`Connected to MongoDB at: ${DBConfig.Host}`);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, '../Views'));
