@@ -42,6 +42,20 @@ router.get('/contact-list', function (req, res, next) {
 router.get('/add', function (req, res, next) {
     res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: '' });
 });
+router.post('/add', function (req, res, next) {
+    let newContact = new contact_1.default({
+        "FullName": req.body.fullName,
+        "ContactNumber": req.body.contactNumber,
+        "EmailAddress": req.body.emailAddress
+    });
+    contact_1.default.create(newContact, function (err) {
+        if (err) {
+            console.error(err);
+            res.end(err);
+        }
+        res.redirect('/contact-list');
+    });
+});
 router.get('/edit/:id', function (req, res, next) {
     let id = req.params.id;
     contact_1.default.findById(id, {}, {}, function (err, contactToEdit) {
