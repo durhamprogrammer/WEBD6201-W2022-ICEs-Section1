@@ -36,9 +36,8 @@ router.get('/contact-list', function (req, res, next) {
             console.error(err);
             res.end(err);
         }
-        console.log(contactsCollection);
+        res.render('index', { title: 'Contact List', page: 'contact-list', contacts: contactsCollection, displayName: '' });
     });
-    res.render('index', { title: 'Contact List', page: 'contact-list', displayName: '' });
 });
 router.get('/edit', function (req, res, next) {
     res.render('index', { title: 'Edit Contact', page: 'edit', displayName: '' });

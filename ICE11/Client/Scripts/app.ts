@@ -392,14 +392,12 @@
             DisplayServicesPage();
             break;
           case "contact-list": 
-            AuthGuard();
             DisplayContactListPage();
             break;
           case "contact": 
             DisplayContactPage();
             break;
           case "edit": 
-            AuthGuard();
             DisplayEditPage();
             break;
           case "login": 
