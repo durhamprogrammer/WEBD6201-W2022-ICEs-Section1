@@ -66,6 +66,22 @@ router.get('/edit/:id', function (req, res, next) {
         res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' });
     });
 });
+router.post('/edit/:id', function (req, res, next) {
+    let id = req.params.id;
+    let updatedContact = new contact_1.default({
+        "_id": id,
+        "FullName": req.body.fullName,
+        "ContactNumber": req.body.contactNumber,
+        "EmailAddress": req.body.emailAddress
+    });
+    contact_1.default.updateOne({ _id: id }, updatedContact, function (err) {
+        if (err) {
+            console.error(err);
+            res.end(err);
+        }
+        res.redirect('/contact-list');
+    });
+});
 router.get('/delete/:id', function (req, res, next) {
     let id = req.params.id;
     contact_1.default.remove({ _id: id }, function (err) {

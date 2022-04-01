@@ -119,6 +119,34 @@ router.get('/edit/:id', function(req, res, next)
   });
 });
 
+/* Process the Edit request */
+router.post('/edit/:id', function(req, res, next) 
+{
+  let id = req.params.id;
+
+  // instantiate a new contact to edit
+  let updatedContact = new Contact
+  ({
+    "_id": id,
+    "FullName": req.body.fullName,
+    "ContactNumber": req.body.contactNumber,
+    "EmailAddress": req.body.emailAddress
+  });
+
+  // db.contacts.update
+  Contact.updateOne({_id:id}, updatedContact, function(err: ErrorCallback)
+  {
+    if(err)
+    {
+      console.error(err);
+      res.end(err);
+    }
+
+    // edit was successful -> go to the contact-list page
+    res.redirect('/contact-list')
+  });
+});
+
 /* Process the Delete request */
 router.get('/delete/:id', function(req, res, next) 
 {
