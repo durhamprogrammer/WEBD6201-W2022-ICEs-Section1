@@ -39,8 +39,18 @@ router.get('/contact-list', function (req, res, next) {
         res.render('index', { title: 'Contact List', page: 'contact-list', contacts: contactsCollection, displayName: '' });
     });
 });
-router.get('/edit', function (req, res, next) {
-    res.render('index', { title: 'Edit Contact', page: 'edit', displayName: '' });
+router.get('/add', function (req, res, next) {
+    res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: '' });
+});
+router.get('/edit/:id', function (req, res, next) {
+    let id = req.params.id;
+    contact_1.default.findById(id, {}, {}, function (err, contactToEdit) {
+        if (err) {
+            console.error(err);
+            res.end(err);
+        }
+        res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' });
+    });
 });
 exports.default = router;
 //# sourceMappingURL=index.js.map

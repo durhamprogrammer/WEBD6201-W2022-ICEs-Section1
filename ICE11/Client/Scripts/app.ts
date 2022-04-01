@@ -137,7 +137,7 @@
     function DisplayContactListPage()
     {
         console.log("Contact-List Page");
-
+/* 
         if(localStorage.length > 0)
         {
             let contactList = document.getElementById("contactList") as HTMLElement;
@@ -192,7 +192,7 @@
         $("#addButton").on("click",() =>
         {
             location.href = "/edit#add";
-        });
+        }); */
     }
 
     function DisplayEditPage()

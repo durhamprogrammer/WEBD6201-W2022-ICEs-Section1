@@ -69,9 +69,30 @@ router.get('/contact-list', function(req, res, next)
   
 });
 
-router.get('/edit', function(req, res, next) 
+/* Display the Add Page */
+router.get('/add', function(req, res, next) 
 {
-  res.render('index', { title: 'Edit Contact', page: 'edit', displayName: '' });
+  res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: '' });
 });
+
+/* Display the Edit Page with Data injected from the db */
+router.get('/edit/:id', function(req, res, next) 
+{
+  let id = req.params.id;
+
+  // pass the id to the db and read the contact in
+  Contact.findById(id, {}, {}, function(err, contactToEdit)
+  {
+    if(err)
+    {
+      console.error(err);
+      res.end(err);
+    }
+
+    // show the edit view with the data
+    res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' });
+  });
+});
+
 
 export default router;
