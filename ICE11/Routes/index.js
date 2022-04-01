@@ -66,5 +66,15 @@ router.get('/edit/:id', function (req, res, next) {
         res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' });
     });
 });
+router.get('/delete/:id', function (req, res, next) {
+    let id = req.params.id;
+    contact_1.default.remove({ _id: id }, function (err) {
+        if (err) {
+            console.error(err);
+            res.end(err);
+        }
+        res.redirect('/contact-list');
+    });
+});
 exports.default = router;
 //# sourceMappingURL=index.js.map

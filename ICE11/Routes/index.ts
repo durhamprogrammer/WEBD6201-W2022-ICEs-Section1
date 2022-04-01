@@ -119,5 +119,24 @@ router.get('/edit/:id', function(req, res, next)
   });
 });
 
+/* Process the Delete request */
+router.get('/delete/:id', function(req, res, next) 
+{
+  let id = req.params.id;
+
+  // pass the id to the db and delete the contact
+  Contact.remove({_id: id}, function(err)
+  {
+    if(err)
+    {
+      console.error(err);
+      res.end(err);
+    }
+
+    // delete was successful
+    res.redirect('/contact-list');
+  });
+});
+
 
 export default router;
