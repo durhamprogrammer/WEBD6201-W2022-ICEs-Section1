@@ -1,9 +1,22 @@
+// modules for express server functionality
 import createError from 'http-errors';
 import express, { NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+
+// module for connecting to MongoDB
 import mongoose, {mongo} from 'mongoose';
+
+// modules for authentication
+import session from 'express-session'; // use session
+import passport from 'passport'; // authentication
+import passportLocal from 'passport-local'; // authentication strategy
+import flash from 'connect-flash'; // auth messaging
+
+// authentication objects
+let localStrategy = passportLocal.Strategy; // alias
+// import User Model
 
 import indexRouter from '../Routes/index';
 import usersRouter from '../Routes/users';
