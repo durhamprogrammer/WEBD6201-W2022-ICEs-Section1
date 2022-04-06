@@ -25,7 +25,14 @@ const UserSchema = new Schema
 UserSchema.plugin(passportLocalMongoose);
 const Model = mongoose.model("User", UserSchema as PassportLocalSchema);
 
-
-
+declare global
+{
+    export type UserDocument = mongoose.Document &
+    {
+        Username: String,
+        EmailAddress: String,
+        DisplayName: String
+    }
+}
 
 export default Model;

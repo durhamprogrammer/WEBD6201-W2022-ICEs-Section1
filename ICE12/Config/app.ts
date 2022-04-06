@@ -17,7 +17,9 @@ import flash from 'connect-flash'; // auth messaging
 // authentication objects
 let localStrategy = passportLocal.Strategy; // alias
 // import User Model
+import User from '../Models/user';
 
+// App Configuration
 import indexRouter from '../Routes/index';
 import usersRouter from '../Routes/users';
 
@@ -48,6 +50,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../Client')));
 app.use(express.static(path.join(__dirname, '../node_modules')));
+
+// setup express session
+app.use(session({
+  secret: DBConfig.SessionSecret,
+  saveUninitialized: false,
+  resave: false
+}));
+
+// initialize flash
+app.use(flash());
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// implement an Auth Strategy
+passport.use(User.createStrategy());
+
+// serialize and deserialize the user data
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
