@@ -146,7 +146,7 @@ router.get('/logout', function(req, res, next)
 /* Temporary Routes - Contact-List Related */
 
 /* GET contact-list page. */
-router.get('/contact-list', function(req, res, next) 
+router.get('/contact-list', AuthGuard, function(req, res, next) 
 {
   Contact.find(function(err, contactsCollection)
   {
@@ -163,13 +163,13 @@ router.get('/contact-list', function(req, res, next)
 });
 
 /* Display the Add Page */
-router.get('/add', function(req, res, next) 
+router.get('/add', AuthGuard, function(req, res, next) 
 {
   res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: UserDisplayName(req) });
 });
 
 /* Process the Add Request */
-router.post('/add', function(req, res, next) 
+router.post('/add', AuthGuard, function(req, res, next) 
 {
   // instantiate a new  contact to add
   let newContact = new Contact
@@ -194,7 +194,7 @@ router.post('/add', function(req, res, next)
 });
 
 /* Display the Edit Page with Data injected from the db */
-router.get('/edit/:id', function(req, res, next) 
+router.get('/edit/:id', AuthGuard, function(req, res, next) 
 {
   let id = req.params.id;
 
@@ -213,7 +213,7 @@ router.get('/edit/:id', function(req, res, next)
 });
 
 /* Process the Edit request */
-router.post('/edit/:id', function(req, res, next) 
+router.post('/edit/:id', AuthGuard, function(req, res, next) 
 {
   let id = req.params.id;
 
@@ -241,7 +241,7 @@ router.post('/edit/:id', function(req, res, next)
 });
 
 /* Process the Delete request */
-router.get('/delete/:id', function(req, res, next) 
+router.get('/delete/:id', AuthGuard, function(req, res, next) 
 {
   let id = req.params.id;
 

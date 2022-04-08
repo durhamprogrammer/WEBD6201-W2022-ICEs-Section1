@@ -83,7 +83,7 @@ router.get('/logout', function (req, res, next) {
     req.logOut();
     res.redirect('/login');
 });
-router.get('/contact-list', function (req, res, next) {
+router.get('/contact-list', index_1.AuthGuard, function (req, res, next) {
     contact_1.default.find(function (err, contactsCollection) {
         if (err) {
             console.error(err);
@@ -92,10 +92,10 @@ router.get('/contact-list', function (req, res, next) {
         res.render('index', { title: 'Contact List', page: 'contact-list', contacts: contactsCollection, displayName: (0, index_1.UserDisplayName)(req) });
     });
 });
-router.get('/add', function (req, res, next) {
+router.get('/add', index_1.AuthGuard, function (req, res, next) {
     res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: (0, index_1.UserDisplayName)(req) });
 });
-router.post('/add', function (req, res, next) {
+router.post('/add', index_1.AuthGuard, function (req, res, next) {
     let newContact = new contact_1.default({
         "FullName": req.body.fullName,
         "ContactNumber": req.body.contactNumber,
@@ -109,7 +109,7 @@ router.post('/add', function (req, res, next) {
         res.redirect('/contact-list');
     });
 });
-router.get('/edit/:id', function (req, res, next) {
+router.get('/edit/:id', index_1.AuthGuard, function (req, res, next) {
     let id = req.params.id;
     contact_1.default.findById(id, {}, {}, function (err, contactToEdit) {
         if (err) {
@@ -119,7 +119,7 @@ router.get('/edit/:id', function (req, res, next) {
         res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: (0, index_1.UserDisplayName)(req) });
     });
 });
-router.post('/edit/:id', function (req, res, next) {
+router.post('/edit/:id', index_1.AuthGuard, function (req, res, next) {
     let id = req.params.id;
     let updatedContact = new contact_1.default({
         "_id": id,
@@ -135,7 +135,7 @@ router.post('/edit/:id', function (req, res, next) {
         res.redirect('/contact-list');
     });
 });
-router.get('/delete/:id', function (req, res, next) {
+router.get('/delete/:id', index_1.AuthGuard, function (req, res, next) {
     let id = req.params.id;
     contact_1.default.remove({ _id: id }, function (err) {
         if (err) {
