@@ -4,43 +4,44 @@ import passport from 'passport';
 
 import Contact from '../Models/contact';
 import User from '../Models/user';
+import { AuthGuard, UserDisplayName } from '../Util/index';
 
 /*********************************** TOP-LEVEL ROUTES ***************************/
 
 /* GET home page. */
 router.get('/', function(req, res, next) 
 {
-  res.render('index', { title: 'Home', page: 'home', displayName: '' });
+  res.render('index', { title: 'Home', page: 'home', displayName: UserDisplayName(req) });
 });
 
 /* GET home page. */
 router.get('/home', function(req, res, next) 
 {
-  res.render('index', { title: 'Home', page: 'home', displayName: '' });
+  res.render('index', { title: 'Home', page: 'home', displayName: UserDisplayName(req) });
 });
 
 /* GET about page. */
 router.get('/about', function(req, res, next) 
 {
-  res.render('index', { title: 'About Us', page: 'about', displayName: '' });
+  res.render('index', { title: 'About Us', page: 'about', displayName: UserDisplayName(req) });
 });
 
 /* GET projects page. */
 router.get('/projects', function(req, res, next) 
 {
-  res.render('index', { title: 'Our Projects', page: 'projects', displayName: '' });
+  res.render('index', { title: 'Our Projects', page: 'projects', displayName: UserDisplayName(req) });
 });
 
 /* GET services page. */
 router.get('/services', function(req, res, next) 
 {
-  res.render('index', { title: 'Our Services', page: 'services', displayName: '' });
+  res.render('index', { title: 'Our Services', page: 'services', displayName: UserDisplayName(req) });
 });
 
 /* GET contact page. */
 router.get('/contact', function(req, res, next) 
 {
-  res.render('index', { title: 'Contact Us', page: 'contact', displayName: '' });
+  res.render('index', { title: 'Contact Us', page: 'contact', displayName: UserDisplayName(req) });
 });
 
 /*********************************** AUTHENTICATION ROUTES ***************************/
@@ -50,7 +51,8 @@ router.get('/login', function(req, res, next)
 {
   if(!req.user)
   {
-    return res.render('index', { title: 'Login', page: 'login', messages: req.flash('loginMessage'), displayName: '' });
+    return res.render('index', 
+      { title: 'Login', page: 'login', messages: req.flash('loginMessage'), displayName: UserDisplayName(req) });
   }
   return res.redirect('/contact-list');
 });
@@ -93,7 +95,8 @@ router.get('/register', function(req, res, next)
 {
   if(!req.user)
   {
-    return res.render('index', { title: 'Register', page: 'register', messages: req.flash('registerMessage'), displayName: '' });
+    return res.render('index', 
+      { title: 'Register', page: 'register', messages: req.flash('registerMessage'), displayName: UserDisplayName(req) });
   }
   return res.redirect('/contact-list');
 });
@@ -152,7 +155,8 @@ router.get('/contact-list', function(req, res, next)
       console.error(err);
       res.end(err);
     }
-    res.render('index', { title: 'Contact List', page: 'contact-list', contacts: contactsCollection,  displayName: '' });
+    res.render('index', 
+      { title: 'Contact List', page: 'contact-list', contacts: contactsCollection,  displayName: UserDisplayName(req) });
   });
   
   
@@ -161,7 +165,7 @@ router.get('/contact-list', function(req, res, next)
 /* Display the Add Page */
 router.get('/add', function(req, res, next) 
 {
-  res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: '' });
+  res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: UserDisplayName(req) });
 });
 
 /* Process the Add Request */
@@ -204,7 +208,7 @@ router.get('/edit/:id', function(req, res, next)
     }
 
     // show the edit view with the data
-    res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: '' });
+    res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: UserDisplayName(req) });
   });
 });
 
