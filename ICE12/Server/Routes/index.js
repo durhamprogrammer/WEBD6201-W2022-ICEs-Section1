@@ -28,7 +28,7 @@ router.get('/contact', function (req, res, next) {
 });
 router.get('/login', function (req, res, next) {
     if (!req.user) {
-        return res.render('index', { title: 'Login', page: 'login', messages: '', displayName: '' });
+        return res.render('index', { title: 'Login', page: 'login', messages: req.flash('loginMessage'), displayName: '' });
     }
     return res.redirect('/contact-list');
 });
@@ -53,7 +53,7 @@ router.post('/login', function (req, res, next) {
 });
 router.get('/register', function (req, res, next) {
     if (!req.user) {
-        return res.render('index', { title: 'Register', page: 'register', messages: '', displayName: '' });
+        return res.render('index', { title: 'Register', page: 'register', messages: req.flash('registerMessage'), displayName: '' });
     }
     return res.redirect('/contact-list');
 });
