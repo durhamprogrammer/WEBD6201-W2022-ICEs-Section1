@@ -5,7 +5,7 @@ import passportLocalMongoose from 'passport-local-mongoose';
 const UserSchema = new Schema
 ({
     DisplayName: String,
-    Username: String,
+    username: String,
     EmailAddress: String,
     Created:
     {
@@ -29,7 +29,7 @@ declare global
 {
     export type UserDocument = mongoose.Document &
     {
-        Username: String,
+        username: String,
         EmailAddress: String,
         DisplayName: String
     }
