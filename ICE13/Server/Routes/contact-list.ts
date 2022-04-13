@@ -1,125 +1,30 @@
 import express from 'express';
 const router = express.Router();
 
-import Contact from '../Models/contact';
-import { AuthGuard, UserDisplayName } from '../Util/index';
+import { AuthGuard } from '../Util/index';
+
+// controller instance
+import { DisplayAddPage, DisplayContactListPage, DisplayEditPage, ProcessAddPage, ProcessDeletePage, ProcessEditPage } from '../Controllers/contact-list';
 
 /*********************************** CONTACT-LIST ROUTES ***************************/
 /* Temporary Routes - Contact-List Related */
 
 /* GET contact-list page. */
-router.get('/contact-list', AuthGuard, function(req, res, next) 
-{
-  Contact.find(function(err, contactsCollection)
-  {
-    if(err)
-    {
-      console.error(err);
-      res.end(err);
-    }
-    res.render('index', 
-      { title: 'Contact List', page: 'contact-list', contacts: contactsCollection,  displayName: UserDisplayName(req) });
-  });
-  
-  
-});
+router.get('/contact-list', AuthGuard, DisplayContactListPage);
 
 /* Display the Add Page */
-router.get('/add', AuthGuard, function(req, res, next) 
-{
-  res.render('index', { title: 'Add', page: 'edit', contact: '', displayName: UserDisplayName(req) });
-});
+router.get('/add', AuthGuard, DisplayAddPage);
 
 /* Process the Add Request */
-router.post('/add', AuthGuard, function(req, res, next) 
-{
-  // instantiate a new  contact to add
-  let newContact = new Contact
-  ({
-    "FullName": req.body.fullName,
-    "ContactNumber": req.body.contactNumber,
-    "EmailAddress": req.body.emailAddress
-  });
-
-  // insert contact into db
-  Contact.create(newContact, function(err)
-  {
-    if(err)
-    {
-      console.error(err);
-      res.end(err);
-    }
-
-    // newContact has been added to the db -> go to the contact-list
-    res.redirect('/contact-list');
-  })
-});
+router.post('/add', AuthGuard, ProcessAddPage);
 
 /* Display the Edit Page with Data injected from the db */
-router.get('/edit/:id', AuthGuard, function(req, res, next) 
-{
-  let id = req.params.id;
-
-  // pass the id to the db and read the contact in
-  Contact.findById(id, {}, {}, function(err, contactToEdit)
-  {
-    if(err)
-    {
-      console.error(err);
-      res.end(err);
-    }
-
-    // show the edit view with the data
-    res.render('index', { title: 'Edit', page: 'edit', contact: contactToEdit, displayName: UserDisplayName(req) });
-  });
-});
+router.get('/edit/:id', AuthGuard, DisplayEditPage);
 
 /* Process the Edit request */
-router.post('/edit/:id', AuthGuard, function(req, res, next) 
-{
-  let id = req.params.id;
-
-  // instantiate a new contact to edit
-  let updatedContact = new Contact
-  ({
-    "_id": id,
-    "FullName": req.body.fullName,
-    "ContactNumber": req.body.contactNumber,
-    "EmailAddress": req.body.emailAddress
-  });
-
-  // db.contacts.update
-  Contact.updateOne({_id:id}, updatedContact, function(err: ErrorCallback)
-  {
-    if(err)
-    {
-      console.error(err);
-      res.end(err);
-    }
-
-    // edit was successful -> go to the contact-list page
-    res.redirect('/contact-list')
-  });
-});
+router.post('/edit/:id', AuthGuard, ProcessEditPage);
 
 /* Process the Delete request */
-router.get('/delete/:id', AuthGuard, function(req, res, next) 
-{
-  let id = req.params.id;
-
-  // pass the id to the db and delete the contact
-  Contact.remove({_id: id}, function(err)
-  {
-    if(err)
-    {
-      console.error(err);
-      res.end(err);
-    }
-
-    // delete was successful
-    res.redirect('/contact-list');
-  });
-});
-
+router.get('/delete/:id', AuthGuard, ProcessDeletePage);
 
 export default router;

@@ -1,10 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import passport from 'passport';
 
-import User from '../Models/user';
-import { UserDisplayName } from '../Util/index';
-
+// controller instance
 import { DisplayLoginPage, DisplayRegisterPage, ProcessLoginPage, ProcessLogoutPage, ProcessRegisterPage } from '../Controllers/auth';
 
 /*********************************** AUTHENTICATION ROUTES ***************************/
