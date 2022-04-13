@@ -1,44 +1,27 @@
 import express from 'express';
 const router = express.Router();
 
-import { UserDisplayName } from '../Util/index';
+// create an index controller instance
+import { DisplayAboutPage, DisplayContactPage, DisplayHomePage, DisplayProjectsPage, DisplayServicesPage } from '../Controllers/index';
 
 /*********************************** TOP-LEVEL ROUTES ***************************/
 
 /* GET home page. */
-router.get('/', function(req, res, next) 
-{
-  res.render('index', { title: 'Home', page: 'home', displayName: UserDisplayName(req) });
-});
+router.get('/', DisplayHomePage);
 
 /* GET home page. */
-router.get('/home', function(req, res, next) 
-{
-  res.render('index', { title: 'Home', page: 'home', displayName: UserDisplayName(req) });
-});
+router.get('/home', DisplayHomePage);
 
 /* GET about page. */
-router.get('/about', function(req, res, next) 
-{
-  res.render('index', { title: 'About Us', page: 'about', displayName: UserDisplayName(req) });
-});
+router.get('/about', DisplayAboutPage);
 
 /* GET projects page. */
-router.get('/projects', function(req, res, next) 
-{
-  res.render('index', { title: 'Our Projects', page: 'projects', displayName: UserDisplayName(req) });
-});
+router.get('/projects', DisplayProjectsPage);
 
 /* GET services page. */
-router.get('/services', function(req, res, next) 
-{
-  res.render('index', { title: 'Our Services', page: 'services', displayName: UserDisplayName(req) });
-});
+router.get('/services', DisplayServicesPage);
 
 /* GET contact page. */
-router.get('/contact', function(req, res, next) 
-{
-  res.render('index', { title: 'Contact Us', page: 'contact', displayName: UserDisplayName(req) });
-});
+router.get('/contact', DisplayContactPage);
 
 export default router;
