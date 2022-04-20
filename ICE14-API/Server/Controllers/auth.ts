@@ -3,28 +3,8 @@ import express, {Request, Response, NextFunction} from 'express';
 import passport from 'passport';
 
 import User from '../Models/user';
-import { GenerateToken, UserDisplayName } from '../Util/index';
+import { GenerateToken } from '../Util/index';
 
-// Display Functions
-export function DisplayLoginPage(req: Request, res: Response, next: NextFunction): void
-{
-    if(!req.user)
-    {
-      return res.render('index', 
-        { title: 'Login', page: 'login', messages: req.flash('loginMessage'), displayName: UserDisplayName(req) });
-    }
-    return res.redirect('/contact-list');
-}
-
-export function DisplayRegisterPage(req: Request, res: Response, next: NextFunction): void
-{
-  if(!req.user)
-  {
-    return res.render('index', 
-      { title: 'Register', page: 'register', messages: req.flash('registerMessage'), displayName: UserDisplayName(req) });
-  }
-  return res.redirect('/contact-list');
-}
 
 // Process Functions
 export function ProcessLoginPage(req: Request, res: Response, next: NextFunction): void
@@ -41,8 +21,7 @@ export function ProcessLoginPage(req: Request, res: Response, next: NextFunction
     // are there login errors?
     if(!user)
     {
-      req.flash('loginMessage', 'Authentication Error');
-      return res.redirect('/login');
+      return res.json({success: false, msg: 'ERROR: Authentication Error'});
     }
 
     req.logIn(user, function(err)
@@ -55,9 +34,14 @@ export function ProcessLoginPage(req: Request, res: Response, next: NextFunction
       }
 
       const authToken = GenerateToken(user);
-      console.log(authToken);
 
-      return res.redirect('/contact-list');
+      return res.json({success: true, msg: 'User Logged In Successfully!', user: {
+        id: user._id,
+        DisplayName: user.DisplayName,
+        username: user.username,
+        EmailAddress: user.EmailAddress
+      }, token: authToken});
+
     });
   })(req, res, next);
 }
@@ -79,18 +63,17 @@ export function ProcessRegisterPage(req: Request, res: Response, next: NextFunct
       if(err.name == "UserExistsError")
       {
         console.error('ERROR: User Already Exists!');
-        req.flash('registerMessage', 'Registration Error');
       }
       console.error(err.name); // other error
-      req.flash('registerMessage', 'Server Error');
-      return res.redirect('/register');
+      return res.json({success: false, msg: 'ERROR: Registration Failure'});
     }
 
+    return res.json({success: true, msg: 'User Registered Successfully!'});
     // automatically login the user
-    return passport.authenticate('local')(req, res, function()
+    /* return passport.authenticate('local')(req, res, function()
     {
       return res.redirect('/contact-list');
-    });
+    }); */
   });
 }
 
@@ -98,5 +81,5 @@ export function ProcessLogoutPage(req: Request, res: Response, next: NextFunctio
 {
   req.logOut();
 
-  res.redirect('/login');
+  res.json({success: true, msg: 'User Logged out Successfully!'});
 }

@@ -42,7 +42,6 @@ let JWTStrategy = passport_jwt_1.default.Strategy;
 let ExtractJWT = passport_jwt_1.default.ExtractJwt;
 let localStrategy = passport_local_1.default.Strategy;
 const user_1 = __importDefault(require("../Models/user"));
-const index_1 = __importDefault(require("../Routes/index"));
 const auth_1 = __importDefault(require("../Routes/auth"));
 const contact_list_1 = __importDefault(require("../Routes/contact-list"));
 const app = (0, express_1.default)();
@@ -89,9 +88,8 @@ let strategy = new JWTStrategy(jwtOptions, function (jwt_payload, done) {
     });
 });
 passport_1.default.use(strategy);
-app.use('/', index_1.default);
-app.use('/', auth_1.default);
-app.use('/', contact_list_1.default);
+app.use('/api', auth_1.default);
+app.use('/api', contact_list_1.default);
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));
 });
