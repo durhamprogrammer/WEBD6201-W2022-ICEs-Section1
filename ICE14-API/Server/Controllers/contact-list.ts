@@ -59,7 +59,7 @@ export function ProcessAddPage(req: Request, res: Response, next: NextFunction):
         res.end(err);
     }
 
-    res.json({success: true, msg: 'Successfully Added Contact'});
+    res.json({success: true, msg: 'Successfully Added Contact', contact: newContact});
     });
 }
 

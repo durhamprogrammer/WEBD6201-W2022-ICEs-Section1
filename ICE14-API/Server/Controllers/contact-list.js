@@ -41,7 +41,7 @@ function ProcessAddPage(req, res, next) {
             console.error(err);
             res.end(err);
         }
-        res.json({ success: true, msg: 'Successfully Added Contact' });
+        res.json({ success: true, msg: 'Successfully Added Contact', contact: newContact });
     });
 }
 exports.ProcessAddPage = ProcessAddPage;
