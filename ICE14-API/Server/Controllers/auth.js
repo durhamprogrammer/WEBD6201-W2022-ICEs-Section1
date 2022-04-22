@@ -29,6 +29,7 @@ function ProcessLoginPage(req, res, next) {
                     EmailAddress: user.EmailAddress
                 }, token: authToken });
         });
+        return;
     })(req, res, next);
 }
 exports.ProcessLoginPage = ProcessLoginPage;

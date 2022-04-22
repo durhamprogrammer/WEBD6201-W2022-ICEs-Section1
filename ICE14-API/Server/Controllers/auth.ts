@@ -43,6 +43,7 @@ export function ProcessLoginPage(req: Request, res: Response, next: NextFunction
       }, token: authToken});
 
     });
+    return;
   })(req, res, next);
 }
 

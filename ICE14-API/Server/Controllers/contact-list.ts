@@ -45,9 +45,9 @@ export function ProcessAddPage(req: Request, res: Response, next: NextFunction):
     // instantiate a new  contact to add
     let newContact = new Contact
     ({
-    "FullName": req.body.fullName,
-    "ContactNumber": req.body.contactNumber,
-    "EmailAddress": req.body.emailAddress
+    "FullName": req.body.FullName,
+    "ContactNumber": req.body.ContactNumber,
+    "EmailAddress": req.body.EmailAddress
     });
 
     // insert contact into db
