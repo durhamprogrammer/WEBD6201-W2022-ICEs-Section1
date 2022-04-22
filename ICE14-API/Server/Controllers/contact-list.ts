@@ -94,7 +94,7 @@ export function ProcessDeletePage(req: Request, res: Response, next: NextFunctio
     let id = req.params.id;
 
     // pass the id to the db and delete the contact
-    Contact.remove({_id: id}, function(err)
+    Contact.deleteOne({_id: id}, function(err)
     {
       if(err)
       {
