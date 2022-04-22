@@ -49,9 +49,9 @@ function ProcessEditPage(req, res, next) {
     let id = req.params.id;
     let updatedContact = new contact_1.default({
         "_id": id,
-        "FullName": req.body.fullName,
-        "ContactNumber": req.body.contactNumber,
-        "EmailAddress": req.body.emailAddress
+        "FullName": req.body.FullName,
+        "ContactNumber": req.body.ContactNumber,
+        "EmailAddress": req.body.EmailAddress
     });
     contact_1.default.updateOne({ _id: id }, updatedContact, function (err) {
         if (err) {

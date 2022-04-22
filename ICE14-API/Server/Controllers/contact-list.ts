@@ -71,9 +71,9 @@ export function ProcessEditPage(req: Request, res: Response, next: NextFunction)
     let updatedContact = new Contact
     ({
       "_id": id,
-      "FullName": req.body.fullName,
-      "ContactNumber": req.body.contactNumber,
-      "EmailAddress": req.body.emailAddress
+      "FullName": req.body.FullName,
+      "ContactNumber": req.body.ContactNumber,
+      "EmailAddress": req.body.EmailAddress
     });
   
     // db.contacts.update
