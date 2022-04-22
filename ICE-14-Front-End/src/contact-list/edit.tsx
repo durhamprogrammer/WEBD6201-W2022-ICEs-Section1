@@ -13,7 +13,7 @@ export default function EditContact()
     useEffect(()=>{
         getContact(id);
         document.title = "Edit";
-    });
+    }, [id]);
 
     function onChangeFullName(e: ChangeEvent<HTMLInputElement>)
     {
