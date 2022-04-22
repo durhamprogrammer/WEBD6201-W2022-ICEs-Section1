@@ -89,7 +89,7 @@ let strategy = new JWTStrategy(jwtOptions, function (jwt_payload, done) {
 });
 passport_1.default.use(strategy);
 app.use('/api', auth_1.default);
-app.use('/api', contact_list_1.default);
+app.use('/api', passport_1.default.authenticate('jwt', { session: false }), contact_list_1.default);
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));
 });
